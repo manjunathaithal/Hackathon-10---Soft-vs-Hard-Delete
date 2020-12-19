@@ -21,15 +21,14 @@ app.get("/students", async (req, res) => {
 // Add student to database
 app.post("/students", async (req, res) => {
   // write your codes here
-  const { name, sex, age, classes, grade_point } = req.body;
-  console.log(classes);
+
   try {
     const studentData = new Student({
-      name,
-      sex,
-      age,
-      class: classes,
-      grade_point,
+      name: req.body.name,
+      sex: req.body.sex,
+      age: req.body.age,
+      class: req.body.class,
+      grade_point: req.body.grade_point,
     });
     await studentData.save();
     res.send(studentData);
