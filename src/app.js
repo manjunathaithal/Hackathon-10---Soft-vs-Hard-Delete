@@ -46,7 +46,7 @@ app.get("/students/:id", async (req, res) => {
     const studentData = await Student.findById(id);
     res.send(studentData);
   } catch (err) {
-    res.send(err);
+    res.status(404).send(err);
   }
 });
 
@@ -67,6 +67,8 @@ app.delete("/students/:id", async (req, res) => {
     } else if (type === "hard") {
       Student.collection.drop();
       res.send("Collection is Dropped");
+    } else {
+      res.status(404).send("error");
     }
   } catch (err) {
     res.status(404).send(err);
