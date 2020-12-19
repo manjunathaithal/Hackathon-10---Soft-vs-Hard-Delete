@@ -23,19 +23,16 @@ app.post("/students", async (req, res) => {
   // write your codes here
   const { name, sex, age, classes, grade_point } = req.body;
   console.log(classes);
-  try {
-    const studentData = new Student({
-      name,
-      sex,
-      age,
-      class: classes,
-      grade_point,
-    });
-    await studentData.save();
-    res.send(studentData);
-  } catch (error) {
-    res.status(404).send(error);
-  }
+
+  const studentData = new Student({
+    name,
+    sex,
+    age,
+    class: classes,
+    grade_point,
+  });
+  await studentData.save();
+  res.send(studentData);
 });
 
 // Get specific student
