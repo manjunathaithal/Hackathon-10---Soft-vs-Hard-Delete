@@ -64,8 +64,10 @@ app.delete("/students/:id", async (req, res) => {
       studentData.save();
     } else if (type === "hard") {
       const studentData = await Student.findByIdAndDelete(id);
-      const finalResult = await Student.find();
-      res.send(finalResult);
+      // const finalResult = await Student.find();
+      if (studentData == null) {
+        res.status(404).send("no record Found");
+      }
     }
   } catch (err) {
     res.status(404).send("error");
