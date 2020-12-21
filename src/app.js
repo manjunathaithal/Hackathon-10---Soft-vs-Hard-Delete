@@ -62,10 +62,9 @@ app.delete("/students/:id", async (req, res) => {
 
       studentData.isDeleted = "true";
       studentData.save();
-      res.send("Data is Updated");
     } else if (type === "hard") {
-      Student.collection.drop();
-      res.send("Collection is Dropped");
+      const studentData = await Student.findByIdAndDelete(id);
+      res.send(studentData);
     }
   } catch (err) {
     res.status(404).send("error");
