@@ -67,6 +67,7 @@ app.delete("/students/:id", async (req, res) => {
   } else if (type === "hard") {
     const studentData = await Student.deleteOne({ _id: id });
   }
+  res.sendStatus(200);
   // if (req.query.type.toLowerCase() === "soft") {
   //   await Student.updateOne({ _id: req.params.id }, { isDeleted: true });
   // } else if (req.query.type.toLowerCase() === "hard") {
