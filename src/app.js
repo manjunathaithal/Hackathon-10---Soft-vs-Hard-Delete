@@ -56,8 +56,8 @@ app.get("/students/:id", async (req, res) => {
 
 // delete specific student
 app.delete("/students/:id", async (req, res) => {
-  // const id = req.params.id;
-  // const type = req.query.type;
+  const id = req.params.id;
+  const type = req.query.type;
 
   if (type === "soft") {
     const studentData = await Student.updateOne(
