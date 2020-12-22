@@ -55,22 +55,28 @@ app.delete("/students/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const type = req.query.type;
-    console.log(id, type);
+
     if (type === "soft") {
       // const value = true;
       const studentData = await Student.findById(id);
-
-      studentData.isDeleted = "true";
-      studentData.save();
+      console.log(studentData.isDeleted);
+      if (studentData.isDeleted === true) {
+        res.status(404).send("record not found");
+      } else {
+        studentData.isDeleted = "true";
+        await studentData.save();
+        res.status(200).send("data is updated");
+      }
     } else if (type === "hard") {
       const studentData = await Student.findByIdAndDelete(id);
+
       // const finalResult = await Student.find();
       if (studentData == null) {
         res.status(404).send("no record Found");
       }
     }
-  } catch (err) {
-    res.status(404).send("error");
+  } catch (error) {
+    res.send(error);
   }
 });
 
