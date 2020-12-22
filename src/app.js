@@ -1,4 +1,5 @@
 const express = require("express");
+const { findByIdAndDelete } = require("./models/Student");
 const Student = require("./models/Student");
 
 const app = express();
@@ -52,32 +53,47 @@ app.get("/students/:id", async (req, res) => {
 // delete specific student
 app.delete("/students/:id", async (req, res) => {
   // write your codes here
-  try {
-    const id = req.params.id;
-    const type = req.query.type;
+  // try {
+  const id = req.params.id;
+  const type = req.query.type;
 
-    if (type === "soft") {
-      // const value = true;
-      const studentData = await Student.findById(id);
-      console.log(studentData.isDeleted);
-      if (studentData.isDeleted === true) {
-        res.status(404).send("record not found");
-      } else {
-        studentData.isDeleted = "true";
-        await studentData.save();
-        res.status(200).send("data is updated");
-      }
-    } else if (type === "hard") {
-      const studentData = await Student.findByIdAndDelete(id);
-      if (studentData === null) {
-        res.status(404).send("data does not exist");
-      } else {
-        res.status(200).send("data is Deleted");
-      }
+  if (type === "soft") {
+    // const value = true;
+    const studentData = await Student.updateOne(
+      { _id: id },
+      { isDeleted: true }
+    );
+    if (studentData.nModified === 1) {
+      res.send("data Is Updated");
+    } else {
+      res.status(404).send("Record Does Not Exist");
     }
-  } catch (error) {
-    res.status(404).send(error);
+  } else if (type === "hard") {
+    const studentData = await Student.deleteOne({ _id: id });
+    if (studentData.deletedCount === 0) {
+      res.status(404).send("Record Does Not Exist");
+    } else {
+      res.send("Record is Deleted");
+    }
   }
+  //     console.log(studentData.isDeleted);
+  //     if (studentData.isDeleted === true) {
+  //       res.status(404).send("record not found");
+  //     } else {
+  //       await studentData.save();
+  //       res.status(200).send("data is updated");
+  //     }
+  //   } else if (type === "hard") {
+  //     const studentData = await Student.findByIdAndDelete(id);
+  //     if (studentData === null) {
+  //       res.status(404).send("data does not exist");
+  //     } else {
+  //       res.status(200).send("data is Deleted");
+  //     }
+  //   }
+  // } catch (error) {
+  //   res.status(404).send("error");
+  // }
 });
 
 module.exports = app;
