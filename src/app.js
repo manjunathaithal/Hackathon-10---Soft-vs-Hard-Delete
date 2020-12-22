@@ -59,30 +59,30 @@ app.delete("/students/:id", async (req, res) => {
   // const id = req.params.id;
   // const type = req.query.type;
 
-  // if (type === "soft") {
-  //   const studentData = await Student.updateOne(
-  //     { _id: id },
-  //     { isDeleted: true }
-  //   );
-  //   if (studentData.nModified === 1) {
-  //     res.status(200).send("Record is Updated");
-  //   } else {
-  //     res.status(404).send("Record Does Not Exist");
-  //   }
-  // } else if (type === "hard") {
-  //   const studentData = await Student.deleteOne({ _id: id });
-  //   if (studentData.deletedCount === 0) {
-  //     res.status(404).send("Record Does Not Exist");
-  //   } else {
-  //     res.send("Record is Deleted");
-  //   }
-  // }
-  if (req.query.type.toLowerCase() === "soft") {
-    await Student.updateOne({ _id: req.params.id }, { isDeleted: true });
-  } else if (req.query.type.toLowerCase() === "hard") {
-    await Student.deleteOne({ _id: req.params.id });
+  if (type === "soft") {
+    const studentData = await Student.updateOne(
+      { _id: id },
+      { isDeleted: true }
+    );
+    if (studentData.nModified === 1) {
+      res.status(200).send("Record is Updated");
+    } else {
+      res.status(404).send("Record Does Not Exist");
+    }
+  } else if (type === "hard") {
+    const studentData = await Student.deleteOne({ _id: id });
+    if (studentData.deletedCount === 0) {
+      res.status(404).send("Record Does Not Exist");
+    } else {
+      res.send("Record is Deleted");
+    }
   }
-  res.sendStatus(200);
+  // if (req.query.type.toLowerCase() === "soft") {
+  //   await Student.updateOne({ _id: req.params.id }, { isDeleted: true });
+  // } else if (req.query.type.toLowerCase() === "hard") {
+  //   await Student.deleteOne({ _id: req.params.id });
+  // }
+  // res.sendStatus(200);
 });
 
 module.exports = app;
