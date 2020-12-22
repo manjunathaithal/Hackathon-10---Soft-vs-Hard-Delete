@@ -12,7 +12,7 @@ app.use(express.json());
 // Get all the students
 app.get("/students", async (req, res) => {
   try {
-    const studentData = await Student.find();
+    const studentData = await Student.find({ isDeleted: false });
     res.send(studentData);
   } catch (err) {
     res.status(404).send(err);
@@ -44,7 +44,11 @@ app.get("/students/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const studentData = await Student.findById(id);
-    res.send(studentData);
+    if (studentData.isDeleted === true) {
+      res.status(404).send("Record does not exist");
+    } else {
+      res.send(studentData);
+    }
   } catch (err) {
     res.send(err);
   }
